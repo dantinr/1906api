@@ -36,6 +36,8 @@ Route::prefix('/test')->group(function(){
 
 
 Route::prefix('/api')->group(function(){
+    Route::get('/user/info','Api\UserController@info');
+    Route::post('/user/reg','Api\UserController@reg');          // 用户注册
 
 });
 
