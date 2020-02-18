@@ -39,6 +39,9 @@ Route::prefix('/test')->group(function(){
     Route::post('/post3','TestController@post3');      // 处理post请求的接口
 
     Route::post('/upload','TestController@testUpload');      // 处理post上传文件
+    Route::get('/get/url','TestController@getUrl');
+
+    Route::get('/redis/str1','TestController@RedisStr1');
 
 
 
@@ -53,6 +56,9 @@ Route::prefix('/api')->group(function(){
     Route::post('/user/reg','Api\UserController@reg');          // 用户注册
 
 });
+
+
+Route::get('/goods','GoodsController@detail');      //商品详情
 
 
 

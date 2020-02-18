@@ -217,10 +217,37 @@ class TestController extends Controller
     }
 
 
+    /**
+     * 获取当前完整URL地址
+     */
+    public function getUrl()
+    {
+        // 协议 http https
+        $scheme = $_SERVER['REQUEST_SCHEME'];
+        // 域名
+        $host = $_SERVER['HTTP_HOST'];
+        // 请求URI
+        $uri = $_SERVER['REQUEST_URI'];
+
+        $url = $scheme . '://' . $host . $uri;
+
+        echo '当前URL: '.$url;echo '<hr>';
+
+        echo "<pre>";print_r($_SERVER);echo "</pre>";
+    }
 
 
 
 
+
+
+    public function redisStr1()
+    {
+
+
+
+
+    }
 
 
 
