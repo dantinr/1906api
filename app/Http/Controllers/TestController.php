@@ -237,17 +237,116 @@ class TestController extends Controller
     }
 
 
-
-
-
-
-    public function redisStr1()
+    public function count1()
     {
+
+        //使用UA识别用户
+        $ua = $_SERVER['HTTP_USER_AGENT'];
+        $u = md5($ua);
+        $u = substr($u,5,5);
+
+
+        //限制 次数
+        $max = env('API_ACCESS_COUNT');      //接口访问限制次数
+
+        //判断次数是否已到上限
+        $key = $u .':count1';
+        echo $key;echo "<br>";
+        $number = Redis::get($key);
+        //var_dump($number);die;
+        echo "现有访问次数：". $number;echo "<br>";
+
+
+        //超过上限
+        if($number > $max){
+            $timeout = env('API_TIMEOUT_SECOND');      //10内禁止访问
+            Redis::expire($key,$timeout);
+            echo "接口访问受限，超过了访问次数" .$max;echo "<br>";
+            echo "请".$timeout .' 秒后访问';echo "<br>";
+            die;
+        }
+
+        //计数
+        $count = Redis::incr($key);
+        echo $count;echo "<br>";
+        echo "访问正常";
+
+
+        //限制 10秒内不能访问
+
+    }
+
+
+    public function api2()
+    {
+        $ua = $_SERVER['HTTP_USER_AGENT'];
+        $u = md5($ua);
+        $u = substr($u,5,5);
+        echo "U: ".$u;echo "<br>";
+
+        //获取当前uri
+        $uri = $_SERVER['REQUEST_URI'];
+        echo "URI: ".$uri;echo "<br>";
+
+        $md5_uri = substr( md5($uri) ,0,8);
+        echo $md5_uri;echo "<br>";
+
+        $key = 'count:uri:'.$u.':'.$md5_uri;
+        echo 'Redis Key: '.$key;echo "<br>";
+
+        echo '<hr>';
+        $count = Redis::get($key);
+        echo "当前接口计数： ". $count;echo "<br>";
+        $max = env('API_ACCESS_COUNT');     //接口访问限制
+        echo "接口访问最大次数：".$max;echo "<br>";
+
+        if($count > $max){
+           echo "你在刷接口";
+           die;
+        }
+
+        Redis::incr($key);
 
 
 
 
     }
+
+
+    public function api3()
+    {
+        $ua = $_SERVER['HTTP_USER_AGENT'];
+        $u = md5($ua);
+        $u = substr($u,5,5);
+        echo "U: ".$u;echo "<br>";
+
+        //获取当前uri
+        $uri = $_SERVER['REQUEST_URI'];
+        echo "URI: ".$uri;echo "<br>";
+
+        $md5_uri = substr( md5($uri) ,0,8);
+        echo $md5_uri;echo "<br>";
+
+        $key = 'count:uri:'.$u.':'.$md5_uri;
+        echo 'Redis Key: '.$key;echo "<br>";
+
+        echo '<hr>';
+        $count = Redis::get($key);
+        echo "当前接口计数： ". $count;echo "<br>";
+        $max = env('API_ACCESS_COUNT');     //接口访问限制
+        echo "接口访问最大次数：".$max;echo "<br>";
+
+        if($count > $max){
+            echo "你在刷接口";
+            die;
+        }
+
+        Redis::incr($key);
+
+
+    }
+
+
 
 
 
