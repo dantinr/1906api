@@ -46,11 +46,11 @@ Route::prefix('/test')->group(function(){
     Route::get('/redis/count1','TestController@count1');
     Route::get('/api2','TestController@api2');
     Route::get('/api3','TestController@api3');
-
-
-
-
-
+    Route::get('/api3','TestController@api3');
+    Route::get('/api3','TestController@api3');
+    Route::get('/api3','TestController@api3');
+    Route::get('/md5test1','TestController@md5Test1');
+    Route::get('/verify','TestController@verifySign');
 });
 
 ###############  测试 路由 #########################
@@ -61,10 +61,18 @@ Route::prefix('/api')->group(function(){
     Route::get('/user/info','Api\UserController@info');
     Route::post('/user/reg','Api\UserController@reg');          // 用户注册
 
+
+    Route::get('/weather','Api\UserController@weather');        //获取天气
+
+
 });
 
 
 Route::get('/goods','GoodsController@detail');      //商品详情
+
+
+
+
 
 
 

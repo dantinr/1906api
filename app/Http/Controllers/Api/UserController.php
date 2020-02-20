@@ -47,4 +47,22 @@ class UserController extends Controller
         echo "自增ID: ".$id;
 
     }
+
+
+    /**
+     * 获取天气
+     * 2020年2月20日14:54:57
+     */
+    public function weather()
+    {
+
+        $location = $_GET['location'];     //客户端传递的参数
+        //请求第三方 天气接口
+        $url = 'https://free-api.heweather.net/s6/weather/now?location='.$location.'&key=d957029d5931428f8eef6ba241aefdd7';
+        $data = file_get_contents($url);
+        $arr = json_decode($data,true);
+        echo "<pre>";print_r($arr);echo "</pre>";echo '<hr>';
+
+        return $arr;
+    }
 }
