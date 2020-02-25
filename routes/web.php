@@ -23,6 +23,9 @@ Route::get('/phpinfo',function(){
 
 ###############  测试 路由 #########################
 
+Route::get('/rsa/decrypt1','TestController@rsaDecrypt1');
+Route::get('/alipay/test1','AlipayController@test1');
+
 
 Route::prefix('/test')->group(function(){
     Route::get('/redis','TestController@testRedis');
@@ -51,6 +54,12 @@ Route::prefix('/test')->group(function(){
     Route::get('/api3','TestController@api3');
     Route::get('/md5test1','TestController@md5Test1');
     Route::get('/verify','TestController@verifySign');
+
+    Route::get('/lucky','TestController@lucky');
+    Route::get('/decrypt1','TestController@decrypt1');
+
+
+
 });
 
 ###############  测试 路由 #########################

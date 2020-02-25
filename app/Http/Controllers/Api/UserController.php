@@ -56,6 +56,10 @@ class UserController extends Controller
     public function weather()
     {
 
+        if(empty($_GET['location'])){
+            echo "请输入地理位置";die;
+        }
+
         $location = $_GET['location'];     //客户端传递的参数
         //请求第三方 天气接口
         $url = 'https://free-api.heweather.net/s6/weather/now?location='.$location.'&key=d957029d5931428f8eef6ba241aefdd7';

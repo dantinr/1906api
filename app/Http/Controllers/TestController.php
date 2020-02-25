@@ -430,6 +430,86 @@ class TestController extends Controller
     }
 
 
+    public function lucky()
+    {
+
+        echo "请输入您的出生日期，程序帮您计算，今天适合吃什么";echo "<br>";
+
+        if(empty($_GET['birth'])){
+            echo "请输入出生日期";die;
+        }
+        $birth = $_GET['birth'];        //出生日期
+
+        //$res = ['大吉','吉','中','凶','大凶'];
+        $res = ['大米饭','二米饭','喝粥','吃土','红烧肉','XXX'];
+        $rand = mt_rand(0,5);
+
+        echo $res[$rand];    // 0 1 2 3 4
+
+
+
+    }
+
+
+    public function decrypt1()
+    {
+        $key = '1906';
+        $method = 'aes-128-cbc';
+        $iv = 'abcdefg1234zxcdf';
+
+        echo '<hr>';echo '<hr>';
+        echo "接收到的数据：";echo "<br>";
+       echo "<pre>";print_r($_GET);echo "</pre>";
+       $data = $_GET['data'];
+
+       // base64解码
+        $enc_str = base64_decode($data);
+
+       //解密
+        $dec_data = openssl_decrypt($enc_str,$method,$key,OPENSSL_RAW_DATA,$iv);
+        echo "解密的数据：";echo "<br>";
+        var_dump($dec_data);
+
+    }
+
+
+    public function rsaDecrypt1()
+    {
+       // echo '<hr>';
+       // echo "这是API";echo "<br>";
+        //echo "<pre>";print_r($_GET);echo "</pre>";
+
+        //解密数据
+        $enc_data = base64_decode($_GET['data']);       //base64_decode
+        //var_dump($enc_data);   //需要解密的数据
+
+
+        $priv = file_get_contents(storage_path('keys/priv_a.key'));
+        openssl_private_decrypt($enc_data,$dec_data,$priv);
+        //echo "解密数据：";echo "<br>";
+
+
+        //响应数据
+        $str = "that's all right";
+        $key = file_get_contents(storage_path('keys/pub_b.key'));
+        openssl_public_encrypt($str,$enc_str,$key);
+        //echo "响应的加密数据：".$enc_str;echo "<br>";
+
+        $data = [
+            'errno' => 0,
+            'msg'   => 'ok',
+            'data'  => base64_encode($enc_str)
+        ];
+
+
+        //对数据加密  使用对方的公钥进行加密
+
+        return $data;
+
+    }
+
+
+
 
 
 
